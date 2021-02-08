@@ -4,6 +4,7 @@
   "description": "Medusa 小程序核心功能",
   "main": "index.js",
   "scripts": {
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,7 +32,7 @@
     "lint-staged": "^10.5.4"
   },
   "husky": {
-    "hook": {
+    "hooks": {
       "pre-commit": "lint-staged",
       "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
     }
