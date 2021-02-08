@@ -21,12 +21,6 @@ rules:
   max-len:
     - error
     - 120
-  new-cap:
-    - error
-    -
-      newIsCap: false
-  no-param-reassign:
-    - error
-    -
-      props: false
+  new-cap: off
+  no-param-reassign: off
   class-methods-use-this: off
