@@ -18,6 +18,15 @@ rules:
   # disallow use of debugger
   no-debugger: error
   # specify the maximum length of a line in your program
-  max-length:
+  max-len:
     - error
     - 120
+  new-cap:
+    - error
+    -
+      newIsCap: false
+  no-param-reassign:
+    - error
+    -
+      props: false
+  class-methods-use-this: off
