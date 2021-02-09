@@ -1,5 +1,5 @@
-import { medusa } from './core';
+const core = require('./core');
 
-export default {
-  medusa,
+module.exports = {
+  core,
 };
