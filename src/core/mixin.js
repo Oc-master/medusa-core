@@ -15,6 +15,13 @@ const tracePrototypeMethods = (obj) => {
     }
     return acc;
   }, {});
+  const proto = Object.getPrototypeOf(obj);
+  if (proto && proto.constructor !== Object) {
+    return {
+      ...tracePrototypeMethods(proto),
+      ...methods,
+    };
+  }
   return methods;
 };
 
