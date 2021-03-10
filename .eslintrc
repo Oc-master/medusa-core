@@ -24,3 +24,7 @@ rules:
   new-cap: off
   no-param-reassign: off
   class-methods-use-this: off
+  consistent-return:
+    - error
+    -
+      treatUndefinedAsUnspecified: true
