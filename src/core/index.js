@@ -1,17 +1,6 @@
 const mixin = require('./mixin');
 
 class Core {
-  constructor() {
-    const compileMap = new Map([
-      ['app', this.compileApp.bind(this)],
-      ['page', this.compilePage.bind(this)],
-    ]);
-    this.compile = function compile(type, vm) {
-      const lowerCaseType = type.toLowerCase();
-      return compileMap.get(lowerCaseType).call(null, vm);
-    };
-  }
-
   $$buildMap = new Map([
     ['APP', this.buildApp.bind(this)],
     ['PAGE', this.buildPage.bind(this)],
