@@ -1,54 +1,47 @@
+/** 处理好类转化为实例并且做好混入工作 */
 const hooks = require('./hooks');
 
-const tracePrototypeMethods = (obj) => {
-  const methods = Object.getOwnPropertyNames(obj).reduce((acc, key) => {
-    const descriptor = Object.getOwnPropertyDescriptor(obj, key);
+function copyMethodsFromPrototype(instance) {
+  const proto = Object.getPrototypeOf(instance);
+  const methods = {};
+  if (proto && proto.constructor === Object) return methods;
+  Object.getOwnPropertyNames(proto).forEach((name) => {
+    const descriptor = Object.getOwnPropertyDescriptor(proto, name);
     const { writable } = descriptor;
-    if (!writable) {
-      return acc;
+    if (!writable) return undefined;
+    const isPrivate = /^$/.test(name);
+    const isReserve = ['constructor', 'mixins'].includes(name);
+    const isHook = hooks.LIFE_CYCLE_HOOKS.includes(name);
+    if (!isPrivate && !isReserve && !isHook) {
+      methods[name] = proto[name];
     }
-    const isEmpty = /^$/.test(key);
-    const isReserve = ['constructor', 'mixins'].includes(key);
-    const isHook = hooks.includes('key');
-    if (!isEmpty && !isReserve && !isHook) {
-      acc[key] = obj[key];
-    }
-    return acc;
-  }, {});
-  const proto = Object.getPrototypeOf(obj);
-  if (proto && proto.constructor !== Object) {
-    return {
-      ...tracePrototypeMethods(proto),
-      ...methods,
-    };
-  }
-  return methods;
-};
+  });
+  return {
+    ...copyMethodsFromPrototype(proto),
+    ...methods,
+  };
+}
 
-const copyMethod = (vm) => {
-  const instance = new vm();
+function createInstance(Ctor) {
+  const instance = new Ctor();
   const { methods = {} } = instance;
-  const traceMethods = tracePrototypeMethods(vm.prototype);
-  return Object.assign(instance, {
+  const prototypeMethods = copyMethodsFromPrototype(instance);
+  return {
+    ...instance,
     methods: {
       ...methods,
-      ...traceMethods,
+      ...prototypeMethods,
     },
-  });
-};
+  };
+}
 
-const createInstance = (vm) => {
-  const isFunction = typeof vm === 'function';
-  if (isFunction) {
-    return copyMethod(vm);
-  }
-  return Object.create(null);
-};
-
-function mixin(vm) {
-  if (vm === null) return Object.create(null);
-  const instance = createInstance(vm);
+function mixin(Ctor) {
+  const isFunction = Object.prototype.toString.call(Ctor) === '[object Function]';
+  if (!isFunction) return Object.create(null);
+  const instance = createInstance(Ctor);
   return instance;
 }
 
-module.exports = mixin;
+module.exports = {
+  mixin,
+};

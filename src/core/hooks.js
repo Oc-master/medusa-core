@@ -1,23 +1,17 @@
-module.exports = [
-  /** App */
+const LIFE_CYCLE_HOOKS = [
   'onLaunch',
-  'onError',
-  'onPageNotFound',
-  'onUnhandledRejection',
-  'onThemeChange',
-  /** Page */
-  'onLoad',
-  'onReady',
-  'onUnLoad',
-  'onPullDownRefresh',
-  'onReachBottom',
-  'onShareAppMessage',
-  'onShareTimeline',
-  'onAddToFavorites',
-  'onPageScroll',
-  'onResize',
-  'onTabItemTap',
-  /** common */
   'onShow',
   'onHide',
+  'onLoad',
+  'onReady',
+  'onUnload',
+  'created',
+  'attached',
+  'ready',
+  'moved',
+  'detached',
 ];
+
+module.exports = {
+  LIFE_CYCLE_HOOKS,
+};
