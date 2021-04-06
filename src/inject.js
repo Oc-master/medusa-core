@@ -8,7 +8,7 @@ function inject(exports, type, route) {
     set(Ctor) {
       this.$value = Ctor;
 
-      core(Ctor, type, route);
+      core.build(Ctor, type, route);
     },
   });
 }

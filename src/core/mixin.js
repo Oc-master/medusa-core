@@ -39,6 +39,12 @@ function mixin(Ctor) {
   const isFunction = Object.prototype.toString.call(Ctor) === '[object Function]';
   if (!isFunction) return Object.create(null);
   const instance = createInstance(Ctor);
+  const { mixins = [] } = instance;
+  const { length } = mixins;
+  if (length) {
+    const mixinInstances = mixins.map((item) => mixin(item));
+    console.log(mixinInstances);
+  }
   return instance;
 }
 
